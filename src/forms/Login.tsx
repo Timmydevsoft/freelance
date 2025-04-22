@@ -6,53 +6,54 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { LoginDataProp } from "../constant/constant.type";
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const[error, setError]=React.useState({mail: "", password: ""})
+  const [error, setError] = React.useState({ mail: "", password: "" });
 
   const handleViewPassword = () => {
     setShowPassword((prev) => !prev);
   };
-  const inputRef= useRef<HTMLInputElement | null>(null)
-  useEffect(
-    ()=>{
-      inputRef.current?.focus()
-    },[]
-  )
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
-  const navigate = useNavigate()
-  const[formData,setFormData]=React.useState<LoginDataProp>({mail:"", password:""})
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
-    const{name, value}= e.target
-    setFormData((prev)=>{
-        return({...prev, [name]:value})
-    })
-    if(error.mail !== "" || error.password !==""){
-      setError((prev)=>{
-        return({...prev, [name]: ""})
-      })
+  const navigate = useNavigate();
+  const [formData, setFormData] = React.useState<LoginDataProp>({
+    mail: "",
+    password: "",
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      return { ...prev, [name]: value };
+    });
+    if (error.mail !== "" || error.password !== "") {
+      setError((prev) => {
+        return { ...prev, [name]: "" };
+      });
     }
-    
-  }
+  };
 
-   const handleSubmit =(e:React.FormEvent<HTMLFormElement>)=>{
-    e.preventDefault()
-    console.log("working")
-    let values = Object.values(formData).filter((item)=> item === "")
-      if(values.length === 0){
-        navigate("/gigs")
-      }
-      else{
-        let newErr = {mail: "", password: ""}
-        Object.keys(formData).forEach((key)=>{
-          let fieldKey = key as keyof LoginDataProp
-          if(typeof formData[fieldKey] === 'string' && formData[fieldKey].trim() === ""){
-            newErr[fieldKey] = `${fieldKey} is required`
-          }
-        })
-        setError(newErr)
-        return
-      }
-    
-   }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("working");
+    let values = Object.values(formData).filter((item) => item === "");
+    if (values.length === 0) {
+      navigate("/gigs");
+    } else {
+      let newErr = { mail: "", password: "" };
+      Object.keys(formData).forEach((key) => {
+        let fieldKey = key as keyof LoginDataProp;
+        if (
+          typeof formData[fieldKey] === "string" &&
+          formData[fieldKey].trim() === ""
+        ) {
+          newErr[fieldKey] = `${fieldKey} is required`;
+        }
+      });
+      setError(newErr);
+      return;
+    }
+  };
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
@@ -74,11 +75,15 @@ const Login: React.FC = () => {
               <hr />
             </div>
 
-            <form className="flex flex-col items-center space-y-4" onSubmit={handleSubmit}>
+            <form
+              className="flex flex-col items-center space-y-4"
+              onSubmit={handleSubmit}
+            >
               {/* Email */}
               <div className="w-full">
                 <label htmlFor="mail">
-                  Email<span className="text-red-500 text-base">{" "}{error.mail}</span>
+                  Email
+                  <span className="text-red-500 text-base"> {error.mail}</span>
                 </label>
                 <input
                   className="w-full border-2 rounded-3xl focus:border-gray-400 focus:outline-customPurple py-2.5 px-3"
@@ -93,36 +98,41 @@ const Login: React.FC = () => {
               {/* Password */}
               <div className="w-full relative">
                 <label htmlFor="password">
-                  Password<span className="text-red-500 text-base">{" "}{error.password}</span>
+                  Password
+                  <span className="text-red-500 text-base">
+                    {" "}
+                    {error.password}
+                  </span>
                 </label>
+                <br />
                 <input
                   className="w-full border-2 rounded-3xl focus:border-gray-400 focus:outline-customPurple py-2.5 px-3"
-                  type={`${showPassword ? 'text': 'password'}`}
+                  type={`${showPassword ? "text" : "password"}`}
                   name="password"
                   onChange={handleChange}
                   placeholder="Enter password"
                 />
                 <span
                   onClick={handleViewPassword}
-                  className="text-dark_gray opacity-80 text-2xl absolute right-2 top-12 hover:cursor-pointer"
+                  className="absolute top-[2.5rem] right-4 text-dark_gray opacity-80 text-2xl"
                 >
                   {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                 </span>
-                <br />
+              </div>
+              <p className="text-left w-full">
                 <NavLink
-                  className="block text-dark_gray opacity-80 text-base font-normal mt-4"
+                  className="block text-dark_gray opacity-80 text-base font-normal"
                   to="/forgot-password"
                 >
                   Forgot password?
                 </NavLink>
-              </div>
+              </p>
 
               <button className="py-2.5 px-4 bg-dark_purple rounded-3xl text-white w-full md:w-[50%] mt-4">
                 Login
               </button>
             </form>
             <div>
-
               <p className="text-base text-dark_gray text-center opacity-80">
                 Dont have an account?{" "}
                 <NavLink className="text-[#2075FF]" to="/sign-up">

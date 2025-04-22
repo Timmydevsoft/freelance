@@ -5,14 +5,25 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import MailVerification from "./Sign-up/MailVerification";
 const SignUpOne: React.FC = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
 
+
+  const [showPassword, setShowPassword] = React.useState({password: false, confirmPassword: false});
   const inputRef = useRef<HTMLInputElement | null>(null)
   useEffect(()=>{
     inputRef.current?.focus()
   },[])
-  const handleViewPassword = () => {
-    setShowPassword((prev) => !prev);
+  const handleViewPassword = (field: string) => {
+    if(field === "password"){
+
+      setShowPassword((prev)=>{
+        return{...prev, password: !prev.password}
+      })
+    }
+    else{
+      setShowPassword((prev)=>{
+        return{...prev, confirmPassword: !prev.confirmPassword}
+      })
+    }
   };
   const[formData,setFormData]=React.useState({mail:"", password:"", cofirmPassword:""})
 
@@ -84,7 +95,7 @@ const SignUpOne: React.FC = () => {
                 </label>
                 <input
                   className="w-full border-2 rounded-3xl focus:border-gray-400 focus:outline-dark_purple p-3"
-                  type={`${showPassword ? 'text': 'password'}`}
+                  type={`${showPassword.password ? 'text': 'password'}`}
                   name="password"
                   value={formData.password}
                   onChange={(e)=>handleChange(e)}
@@ -92,10 +103,10 @@ const SignUpOne: React.FC = () => {
                   required
                 />
                 <span
-                  onClick={handleViewPassword}
+                  onClick={()=>handleViewPassword('password')}
                   className="text-dark_gray opacity-80 text-2xl absolute right-2 top-12 hover:cursor-pointer"
                 >
-                  {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                  {showPassword.password ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                 </span>
               </div>
 
@@ -106,7 +117,7 @@ const SignUpOne: React.FC = () => {
                 </label>
                 <input
                   className="w-full border-2 rounded-3xl focus:border-gray-400 focus:outline-dark_purple p-3"
-                  type={`${showPassword ? 'text': 'password'}`}
+                  type={`${showPassword.confirmPassword ? 'text': 'password'}`}
                   name="cofirmPassword"
                   value={formData.cofirmPassword}
                   onChange={(e)=>handleChange(e)}
@@ -114,10 +125,10 @@ const SignUpOne: React.FC = () => {
                   required
                 />
                 <span
-                  onClick={handleViewPassword}
+                  onClick={()=>handleViewPassword('confirmPassword')}
                   className="text-dark_gray opacity-80 text-2xl absolute right-2 top-12 hover:cursor-pointer"
                 >
-                  {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                  {showPassword.confirmPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                 </span>
               </div>
               {/* Confrim password end here */}

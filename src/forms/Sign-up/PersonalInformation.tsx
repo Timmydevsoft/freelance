@@ -65,13 +65,13 @@ const PersonalInformation: React.FC = () => {
 
 
   return (
-    <div className="w-full md:w-[70%]">
+    <div className="w-full">
       <h2 className="text-lg text-customPurple font-bold opacity-80 text-center">
         Personal information
       </h2>
-      <form onSubmit={(e)=>handleSubmit(e)} className="grid grid-cols-1 md:grid-cols-2 md:space-x-10">
+      <form onSubmit={(e)=>handleSubmit(e)} className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
         {/* Left form field */}
-        <div className="w-full">
+        <div>
             {/* First name */}
           <div className="w-full">
             <label className=" text-dark_gray opacity-80" htmlFor="mail">
