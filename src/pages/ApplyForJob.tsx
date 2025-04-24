@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from "react";
+// import React, {useState, useEffect} from "react";
 import Hero from "../protected/welcome/Hero";
 import DangerWarning from "../protected/welcome/DangerWarning";
 import Uniqueness from "../home/Uniqueness";
 import Equip from "../home/Equip";
 // import JobDetails from "../component/JobDetails";
 import Opportunities from "../home/Opportunities";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import ApplyModal from "../modals/ApplyModal";
 const ApplyForJob: React.FC = () => {
-  const{id}=useParams()
+  // const{id}=useParams()
 
   // const[isOpen, setIsOpem] = useState(true)
   // // useEffect(()=>{
