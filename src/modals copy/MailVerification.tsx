@@ -1,5 +1,5 @@
 import React,{useState,useRef, useEffect} from "react";
-import "../../index.css";
+import "../index.css";
 import { useNavigate } from "react-router-dom";
 
 const MailVerification: React.FC = () => {

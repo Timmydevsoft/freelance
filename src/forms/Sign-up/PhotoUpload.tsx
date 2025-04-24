@@ -5,9 +5,15 @@ import "../../index.css";
 const PhotoUpload: React.FC = () => {
     const navigate= useNavigate()
     const[image,setImage]=useState<File|null | undefined>(null)
+    const[avatar, setAvatar] = useState<string | null>(null)
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const file =e.target.files?.[0]
+        if(file){
+          let objectUrl  = URL.createObjectURL(file)
+           setAvatar(objectUrl)
+        }
+        
         setImage(file)
     }
     const handleSubmit = async(e:React.FormEvent<HTMLFormElement>)=>{
@@ -34,7 +40,7 @@ const PhotoUpload: React.FC = () => {
       <div className="relative w-full p-5">
         <div className="absolute -top-3 md:top-0 right-[10%]">
           <NavLink
-            to="/after-login"
+            to="/login"
             className="py-2.5 px-6 rounded-3xl bg-white_gray text-dark_purple font-bold"
           >
             Skip
@@ -65,9 +71,11 @@ const PhotoUpload: React.FC = () => {
             })}
           </ul>
         </div>
-        <div className="ringbg w-56 h-40 mx-auto relative flex justify-center">
+
+        <div className="ringbg w-56 rounded-full h-56 mx-auto relative flex justify-center">
+         {avatar &&  <img src={avatar} alt="user-image" className="absolute h-full w-full rounded-full" />}
           <form onSubmit={(e)=>handleSubmit(e)} className="absolute top-32 w-full">
-            <label htmlFor="image" className="px-4 w-full block py-2 hover:cursor-pointer rounded-3xl font-bold bg-white_gray border-dark_purple border-2 text-dark_purple">upload profile picture</label>
+            {!avatar && <label htmlFor="image" className="px-4 w-full block py-2 hover:cursor-pointer rounded-3xl font-bold bg-white_gray border-dark_purple border-2 text-dark_purple">upload profile picture</label>}
             <input type="file" 
                name="image"
                id="image"

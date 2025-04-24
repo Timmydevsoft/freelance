@@ -3,7 +3,7 @@ import image from "../assets/Images/Rectangle 13.jpg";
 import { FaGoogle } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-import MailVerification from "./Sign-up/MailVerification";
+import MailVerification from "../modals/MailVerification";
 const SignUpOne: React.FC = () => {
 
 

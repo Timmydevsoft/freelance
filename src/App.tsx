@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Login from "./forms/Login";
 import PageLayout from "./pages/PageLayout";
 import SignUpOne from "./forms/SignUpOne";
-import PersonalizedModal from "./forms/PersonalizedModal";
+import PersonalizedModal from "./modals/PersonalizedModal";
 // import StageFormLayout from "./forms/StageFormLayout";
 import PersonalInformation from "./forms/Sign-up/PersonalInformation";
 import EducationForm from "./forms/Sign-up/EducationForm";

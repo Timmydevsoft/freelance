@@ -7,7 +7,7 @@ const Interest: React.FC = () => {
         navigate("/sign-upprofile/education")
     }
     const handleNext = ()=>{
-        navigate("/personalized")
+        navigate("/avatarupload")
     }
 
   return (
