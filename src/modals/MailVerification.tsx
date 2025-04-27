@@ -57,6 +57,9 @@ const MailVerification = ({ email }: Props) => {
     }
   };
 
+  let mail = email.split("@")[0].split("").slice(0,3).join('')
+
+
   const handleKeyDown = (e: any, index: any) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
@@ -72,7 +75,7 @@ const MailVerification = ({ email }: Props) => {
         className="bg-white rounded-2xl p-6 w-[80%] md:w-96 flex flex-col items-center space-y-5"
       >
         <p className="text-center text-dark_gray">
-          A verification code has been sent to {email}
+          A verification code has been sent to{" "} {mail}****{email.split("@")[1]}
           Input it here to continue
         </p>
         <div className="flex space-x-2 text-center">
@@ -85,7 +88,7 @@ const MailVerification = ({ email }: Props) => {
                 ref={(input) => (inputRefs.current[index] = input)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 onChange={(e) => handleChange(e, index)}
-                className="h-12 w-11 border-2 text-center text-dark_purple font-semibold focus:outline-dark_purple"
+                className="h-8 w-8 sm:w-11 sm:h-12 border-2 text-center text-dark_purple font-semibold focus:outline-dark_purple"
                 type="text"
               />
             );
