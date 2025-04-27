@@ -1,14 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import image from "../assets/Images/Rectangle 13.jpg";
 import { FaGoogle } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import MailVerification from "../modals/MailVerification";
+import axios from "axios"
+import LoadingButton from "../ui/LoadingButton";
+import ActionButton from "../ui/ActionButton";
 const SignUpOne: React.FC = () => {
 
 
   const [showPassword, setShowPassword] = React.useState({password: false, confirmPassword: false});
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const[loading, setLoading]=useState(false)
   useEffect(()=>{
     inputRef.current?.focus()
   },[])
@@ -25,7 +29,7 @@ const SignUpOne: React.FC = () => {
       })
     }
   };
-  const[formData,setFormData]=React.useState({mail:"", password:"", cofirmPassword:""})
+  const[formData,setFormData]=React.useState({email:"", password:"", cofirmPassword:""})
 
   // 
 
@@ -35,10 +39,30 @@ const SignUpOne: React.FC = () => {
       return({...prev, [name]: value})
     })
   }
-   const handleSubmit =(e:React.FormEvent<HTMLFormElement>)=>{
-    e.preventDefault()
-    console.log(formData)
-    setVerifyModal(true)
+   const handleSubmit =async(e:React.FormEvent<HTMLFormElement>)=>{
+    try{
+      console.log(formData)
+      e.preventDefault()
+      setLoading(true)
+      
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/my/intiate/user`,
+        JSON.stringify({email: formData.email, password: formData.password}),
+        {
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      if(response.status === 200){
+        setLoading(false)
+        console.log(formData)
+        setVerifyModal(true)
+      }
+    }
+    catch(err){
+      setLoading(false)
+    }
+    
    }
 
    const[verifyModal, setVerifyModal]= React.useState(false)
@@ -48,7 +72,7 @@ const SignUpOne: React.FC = () => {
     <>
     {
         verifyModal?
-        (<MailVerification/>):
+        (<MailVerification email={formData.email}/>):
         null
     }
       <div className="flex h-screen w-full overflow-hidden">
@@ -79,8 +103,8 @@ const SignUpOne: React.FC = () => {
                 <input
                   className="w-full border-2 rounded-3xl focus:border-gray-400 focus:outline-dark_purple p-3"
                   type="text"
-                  name="mail"
-                  value={formData.mail}
+                  name="email"
+                  value={formData.email}
                   ref={inputRef}
                   onChange={(e)=>handleChange(e)}
                   placeholder="Enter email address"
@@ -133,9 +157,15 @@ const SignUpOne: React.FC = () => {
               </div>
               {/* Confrim password end here */}
 
-              <button className="py-2.5 px-4 bg-dark_purple rounded-3xl text-white w-[50%] mt-4">
-                Sign Up
-              </button>
+              {
+                loading?
+                <LoadingButton/>:
+                <ActionButton name="Sign up" type='submit'/>
+              }
+
+              
+
+              
             </form>
             <div>
               <p className="mt-16 text-base text-dark_gray text-center opacity-80">
