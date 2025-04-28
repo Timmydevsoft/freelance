@@ -2,58 +2,20 @@ import React, { useEffect, useRef } from "react";
 import image from "../assets/Images/image (2).jpg";
 import { FaGoogle } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { NavLink, useNavigate } from "react-router-dom";
-import { LoginDataProp } from "../constant/constant.type";
+import { NavLink } from "react-router-dom";
+import { useLoginForm } from "./hooks/UseLogingandSIgnupForm";
+import ActionButton from "../ui/ActionButton";
+import LoadingButton from "../ui/LoadingButton";
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const [error, setError] = React.useState({ mail: "", password: "" });
+ 
 
-  const handleViewPassword = () => {
-    setShowPassword((prev) => !prev);
-  };
+const{error, loading, handleChange, handleSubmit} = useLoginForm({ mail: "", password: "",},{ mail: "", password: "" })
+
   const inputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
-
-  const navigate = useNavigate();
-  const [formData, setFormData] = React.useState<LoginDataProp>({
-    mail: "",
-    password: "",
-  });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => {
-      return { ...prev, [name]: value };
-    });
-    if (error.mail !== "" || error.password !== "") {
-      setError((prev) => {
-        return { ...prev, [name]: "" };
-      });
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("working");
-    let values = Object.values(formData).filter((item) => item === "");
-    if (values.length === 0) {
-      navigate("/gigs");
-    } else {
-      let newErr = { mail: "", password: "" };
-      Object.keys(formData).forEach((key) => {
-        let fieldKey = key as keyof LoginDataProp;
-        if (
-          typeof formData[fieldKey] === "string" &&
-          formData[fieldKey].trim() === ""
-        ) {
-          newErr[fieldKey] = `${fieldKey} is required`;
-        }
-      });
-      setError(newErr);
-      return;
-    }
-  };
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
@@ -113,7 +75,7 @@ const Login: React.FC = () => {
                   placeholder="Enter password"
                 />
                 <span
-                  onClick={handleViewPassword}
+                  onClick={()=>setShowPassword((prev)=>!prev)}
                   className="absolute top-[2.5rem] right-4 text-dark_gray opacity-80 text-2xl"
                 >
                   {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
@@ -128,9 +90,11 @@ const Login: React.FC = () => {
                 </NavLink>
               </p>
 
-              <button className="py-2.5 px-4 bg-dark_purple rounded-3xl text-white w-full md:w-[50%] mt-4">
-                Login
-              </button>
+              {
+                loading? <LoadingButton/>:
+                <ActionButton name='Login' type='submit'/>
+              }
+
             </form>
             <div>
               <p className="text-base text-dark_gray text-center opacity-80">

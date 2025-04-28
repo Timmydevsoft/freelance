@@ -14,6 +14,10 @@ body{
   background-color: rgba(0, 0, 0, 0.75);
 }
 
+.toast{
+  z-index: 9999;
+}
+
 .dropshadow{
   box-shadow: 2px 7px 31.7px 0px #00000024;
   /* width: 200px;

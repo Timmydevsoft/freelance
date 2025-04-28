@@ -1,74 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef} from "react";
 import image from "../assets/Images/Rectangle 13.jpg";
 import { FaGoogle } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import MailVerification from "../modals/MailVerification";
-import axios from "axios"
 import LoadingButton from "../ui/LoadingButton";
 import ActionButton from "../ui/ActionButton";
+
+
+import { useSignupForm } from "./hooks/UseLogingandSIgnupForm";
 const SignUpOne: React.FC = () => {
-
-
-  const [showPassword, setShowPassword] = React.useState({password: false, confirmPassword: false});
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const[loading, setLoading]=useState(false)
+  const{formData, handleChange, handleSubmit, handleViewPassword, loading, showPassword, verifyModal} = useSignupForm({email:"", password:"", cofirmPassword:""})
   useEffect(()=>{
     inputRef.current?.focus()
   },[])
-  const handleViewPassword = (field: string) => {
-    if(field === "password"){
-
-      setShowPassword((prev)=>{
-        return{...prev, password: !prev.password}
-      })
-    }
-    else{
-      setShowPassword((prev)=>{
-        return{...prev, confirmPassword: !prev.confirmPassword}
-      })
-    }
-  };
-  const[formData,setFormData]=React.useState({email:"", password:"", cofirmPassword:""})
-
-  // 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
-    const{name, value}=e.target
-    setFormData((prev)=>{
-      return({...prev, [name]: value})
-    })
-  }
-   const handleSubmit =async(e:React.FormEvent<HTMLFormElement>)=>{
-    try{
-      console.log(formData)
-      e.preventDefault()
-      setLoading(true)
-      
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/my/intiate/user`,
-        JSON.stringify({email: formData.email, password: formData.password}),
-        {
-          headers:{
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      if(response.status === 200){
-        setLoading(false)
-        console.log(formData)
-        setVerifyModal(true)
-      }
-    }
-    catch(err){
-      setLoading(false)
-    }
-    
-   }
-
-   const[verifyModal, setVerifyModal]= React.useState(false)
-
   return (
-
     <>
     {
         verifyModal?
@@ -86,8 +33,8 @@ const SignUpOne: React.FC = () => {
           </NavLink>
 
           {/* Form ui srarts here */}
-          <div className=" w-full  mt-24 space-y-5">
-            <div className="space-y-10">
+          <div className=" w-full  mt-16 space-y-5">
+            <div className="space-y-6">
               <button className="flex rounded-3xl py-3 items-center justify-center space-x-4 border-2 w-full">
                 <FaGoogle /> <span>continue with google</span>
               </button>
@@ -104,7 +51,7 @@ const SignUpOne: React.FC = () => {
                   className="w-full border-2 rounded-3xl focus:border-gray-400 focus:outline-dark_purple p-3"
                   type="text"
                   name="email"
-                  value={formData.email}
+                  // value={formData.email}
                   ref={inputRef}
                   onChange={(e)=>handleChange(e)}
                   placeholder="Enter email address"
@@ -121,7 +68,7 @@ const SignUpOne: React.FC = () => {
                   className="w-full border-2 rounded-3xl focus:border-gray-400 focus:outline-dark_purple p-3"
                   type={`${showPassword.password ? 'text': 'password'}`}
                   name="password"
-                  value={formData.password}
+                  // value={formData.password}
                   onChange={(e)=>handleChange(e)}
                   placeholder="Enter password"
                   required
@@ -143,7 +90,7 @@ const SignUpOne: React.FC = () => {
                   className="w-full border-2 rounded-3xl focus:border-gray-400 focus:outline-dark_purple p-3"
                   type={`${showPassword.confirmPassword ? 'text': 'password'}`}
                   name="cofirmPassword"
-                  value={formData.cofirmPassword}
+                  // value={formData.cofirmPassword}
                   onChange={(e)=>handleChange(e)}
                   placeholder="Confirm password"
                   required
@@ -162,9 +109,6 @@ const SignUpOne: React.FC = () => {
                 <LoadingButton/>:
                 <ActionButton name="Sign up" type='submit'/>
               }
-
-              
-
               
             </form>
             <div>

@@ -66,7 +66,6 @@ const MailVerification = ({ email }: Props) => {
     }
   };
 
-  console.log(email)
 
   return (
     <div className="w-full h-screen overflow-hidden absolute top-0 left-0 flex items-center justify-center transparent_bg z-10">
@@ -75,7 +74,7 @@ const MailVerification = ({ email }: Props) => {
         className="bg-white rounded-2xl p-6 w-[80%] md:w-96 flex flex-col items-center space-y-5"
       >
         <p className="text-center text-dark_gray">
-          A verification code has been sent to{" "} {mail}****{email.split("@")[1]}
+          A verification code has been sent to{" "} {mail}****@{email.split("@")[1]}
           Input it here to continue
         </p>
         <div className="flex space-x-2 text-center">
@@ -113,5 +112,3 @@ const MailVerification = ({ email }: Props) => {
 };
 
 export default MailVerification;
-{
-}

@@ -13,11 +13,16 @@ import PhotoUpload from "./forms/Sign-up/PhotoUpload";
 import Overview from "./pages/Overview";
 import ApplyForJob from "./pages/ApplyForJob";
 import FormWrapper from "./forms/Sign-up/FormWraper";
+import Toast from "./modals/Toast";
+import { ToastContextProvider } from "./contexts/ToastContext";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+      
+        <ToastContextProvider>
+        <Toast/>
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/login" element={<Login/>}/>
@@ -39,6 +44,7 @@ function App() {
             <Route path="/gigs/details/:id" element={<ApplyForJob/>}/>
           </Route>
         </Routes>
+        </ToastContextProvider>
       </BrowserRouter>
     </>
   );
