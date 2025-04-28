@@ -14,7 +14,7 @@ const Toast = () => {
     const interval =  setInterval(() => {
         setOpen(false);
         dispatch(toastActions.showToast({ message: "", success: false }));
-      }, 2000);
+      }, 20000);
      if (message !== "" && (success || !success)) {
       setOpen(true);
       return clearInterval(interval)
